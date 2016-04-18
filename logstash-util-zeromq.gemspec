@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 
   s.name            = 'logstash-mixin-zeromq'
-  s.version         = '2.0.0'
+  s.version         = '2.0.1'
   s.licenses        = ['Apache License (2.0)']
   s.summary         = "Mixin to share code for zeromq input, output and filter"
   s.description     = "This gem contains mixin functions, used by 0MQ logstash plugins. This gem is not a stand-alone program"
