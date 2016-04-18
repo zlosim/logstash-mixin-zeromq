@@ -18,6 +18,7 @@ describe LogStash::PluginMixins::ZeroMQ do
     d.mode = "server"
     d
   }
+  let(:tracer) { double("logger") }
 
   it "should initialize with no extra settings" do
     expect {
@@ -40,6 +41,13 @@ describe LogStash::PluginMixins::ZeroMQ do
       it "should setup a server, bind to address without error" do
         expect { impl.setup(socket, "tcp://127.0.0.1:#{port}") }.to_not raise_error
       end
+
+      it "a 'bound' info line is logged" do
+        allow(tracer).to receive(:debug)
+        impl.logger = tracer
+        expect(tracer).to receive(:info).with("0mq: bound", {:address=>"tcp://127.0.0.1:#{port}"})
+        impl.setup(socket, "tcp://127.0.0.1:#{port}")
+      end
     end
 
     context "a client" do
@@ -48,6 +56,13 @@ describe LogStash::PluginMixins::ZeroMQ do
         d.mode = "client"
         d
       }
+
+      it "a 'connected' info line is logged" do
+        allow(tracer).to receive(:debug)
+        impl_client.logger = tracer
+        expect(tracer).to receive(:info).with("0mq: connected", {:address=>"tcp://127.0.0.1:#{port}"})
+        impl_client.setup(socket, "tcp://127.0.0.1:#{port}")
+      end
 
       it "should setup a client, connecting to address without error" do
         expect { impl_client.setup(socket, "tcp://127.0.0.1:#{port}") }.to_not raise_error
@@ -100,6 +115,5 @@ describe LogStash::PluginMixins::ZeroMQ do
     it "should set multiple options" do
       expect { impl.setopts(socket, { "ZMQ::SNDHWM" => "50", "ZMQ::SNDBUF" => "50" } ) }.to_not raise_error
     end
-
   end
 end

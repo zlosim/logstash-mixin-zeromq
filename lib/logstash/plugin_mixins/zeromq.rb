@@ -17,7 +17,7 @@ module LogStash::PluginMixins::ZeroMQ
     else
       error_check(socket.connect(address), "connecting to #{address}")
     end
-    @logger.info("0mq: #{server? ? 'connected' : 'bound'}", :address => address)
+    @logger.info("0mq: #{server? ? 'bound' : 'connected'}", :address => address)
   end
 
   def error_check(rc, doing, eagain_not_error=false)
