@@ -43,10 +43,10 @@ describe LogStash::PluginMixins::ZeroMQ do
     end
 
     context "a client" do
-      let(:impl_client) { 
+      let(:impl_client) {
         d = Dummy.new(basic_config)
         d.mode = "client"
-        d 
+        d
       }
 
       it "should setup a client, connecting to address without error" do
@@ -63,6 +63,16 @@ describe LogStash::PluginMixins::ZeroMQ do
     it "should raise an error for return code below 0" do
       expect { impl.error_check(-1, "test return values" ) }.to raise_error
       expect { impl.error_check(-999, "test return values" ) }.to raise_error
+    end
+
+    it "should raise an error for ZMQ::EAGAIN if eagain_not_error=false" do
+      allow(ZMQ::Util).to receive(:errno).and_return(ZMQ::EAGAIN)
+      expect { impl.error_check(-1, "test return values", false) }.to raise_error
+    end
+
+    it "should not raise an error for ZMQ::EAGAIN if eagain_not_error=true" do
+      allow(ZMQ::Util).to receive(:errno).and_return(ZMQ::EAGAIN)
+      expect { impl.error_check(-1, "test return values", true) }.to_not raise_error
     end
   end
 
