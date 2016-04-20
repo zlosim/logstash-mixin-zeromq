@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.version         = '2.0.1'
   s.licenses        = ['Apache License (2.0)']
   s.summary         = "Mixin to share code for zeromq input, output and filter"
-  s.description     = "This gem contains mixin functions, used by 0MQ logstash plugins. This gem is not a stand-alone program"
+  s.description     = "This gem is a Logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/logstash-plugin install gemname. This gem is not a stand-alone program"
   s.authors         = ["Elastic"]
   s.email           = 'info@elastic.co'
   s.homepage        = "http://www.elastic.co/guide/en/logstash/current/index.html"
