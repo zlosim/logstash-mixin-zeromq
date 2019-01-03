@@ -2,8 +2,7 @@
 sudo: true
 language: ruby
 cache: bundler
-before_install:
-- sudo apt-get install libzmq3-dev
+before_install: gem install bundler -v '< 2'
 matrix:
   include:
   - rvm: jruby-9.1.13.0
@@ -18,4 +17,3 @@ matrix:
 install: true
 script: ci/build.sh
 jdk: oraclejdk8
-
